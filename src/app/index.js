@@ -13,50 +13,19 @@ export default function Inicio() {
     // nosso, não área segura: tire e o avatar cola no cabeçalho.
     <SafeAreaView style={styles.tela} edges={["bottom"]}>
       {/* Cada tela pode mexer no próprio cabeçalho */}
-      <Stack.Screen options={{ title: "Painel" }} />
+      <Stack.Screen options={{ title: "JOGOS" }} />
       <ScrollView>
       <View style={styles.cabecalho}>
-        <View style={styles.avatar} />
         <View>
-          <Text style={styles.saudacao}>Olá, Estudante</Text>
-          <Text style={styles.subtitulo}>Bem-vindo de volta</Text>
+          <Text style={styles.saudacao}>Olá, Jogador N°67 </Text>
         </View>
       </View>
 
       <View style={styles.cartao}>
-        <Text style={styles.cartaoTitulo}>Agenda de Contatos</Text>
-        <Text style={styles.detalhe}>Agenda.</Text>
+        <Text style={styles.cartaoTitulo}>Meus Jogos Suados</Text>
+        <Text style={styles.detalhe}>Comprados com o meu suor!</Text>
         {/* href é o caminho do arquivo: notas.js vira "/notas" */}
-        <Link href="/tela1" style={styles.link}>
-          Ver minhas notas →
-        </Link>
-      </View>
-
-      <View style={styles.cartao}>
-        <Text style={styles.cartaoTitulo}>Biblioteca Pessoal</Text>
-        <Text style={styles.detalhe}>Biblioteca</Text>
-        {/* href é o caminho do arquivo: notas.js vira "/notas" */}
-        <Link href="/tela2" style={styles.link}>
-          Ver minhas notas →
-        </Link>
-      </View>
-
-      <View style={styles.cartao}>
-        <Text style={styles.cartaoTitulo}>Lista de Compra</Text>
-        <Text style={styles.detalhe}>Lista.</Text>
-        {/* href é o caminho do arquivo: notas.js vira "/notas" */}
-        <Link href="/tela3" style={styles.link}>
-          Ver minhas notas →
-        </Link>
-      </View>
-
-      <View style={styles.cartao}>
-        <Text style={styles.cartaoTitulo}>Avaliação de Filmes</Text>
-        <Text style={styles.detalhe}>Avaliação.</Text>
-        {/* href é o caminho do arquivo: notas.js vira "/notas" */}
-        <Link href="/tela4" style={styles.link}>
-          Ver minhas notas →
-        </Link>
+        <Link href="/tela1" style={styles.link}>Lista de Jogos → </Link>
       </View>
       </ScrollView>
     </SafeAreaView>
@@ -72,29 +41,17 @@ const styles = StyleSheet.create({
   },
 
   cabecalho: {
-    flexDirection: "row",
+    flexDirection: "center",
     alignItems: "center",
     gap: 14,
-    marginBottom: 20,
-  },
-
-  avatar: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    backgroundColor: "#D9DDE3",
+    marginBottom: 40,
+    marginTop: 20,
   },
 
   saudacao: {
     fontSize: 22,
     fontWeight: "bold",
     color: "#111827",
-  },
-
-  subtitulo: {
-    fontSize: 14,
-    color: "#6B7280",
-    marginTop: 2,
   },
 
   cartao: {

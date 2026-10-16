@@ -10,6 +10,7 @@ db.execSync(`
   CREATE TABLE IF NOT EXISTS tarefas (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     texto TEXT NOT NULL,
+    segmento TEXT NOT NULL,
     prioridade INTEGER NOT NULL
   );
 `);
@@ -19,17 +20,18 @@ function listar() {
 }
 
 
-function adicionar(texto, prioridade) {
-    db.runSync("INSERT INTO tarefas (texto, prioridade) VALUES (?, ?)", [texto, prioridade]);
+function adicionar(texto, segmento, prioridade) {
+    db.runSync("INSERT INTO tarefas (texto, segmento, prioridade) VALUES (?, ?, ?)", [texto, segmento, prioridade]);
 }
 
 function remover(id) {
     db.runSync("DELETE FROM tarefas WHERE id = ?", [id]);
 }
 
-function atualizar(texto, prioridade, id) {
-    db.runSync("UPDATE tarefas SET texto = ?, prioridade = ? WHERE id = ?", [
+function atualizar(texto, segmento, prioridade, id) {
+    db.runSync("UPDATE tarefas SET texto = ?, segmento = ?, prioridade = ? WHERE id = ?", [
         texto,
+        segmento,
         prioridade,
         id,
     ]);
@@ -37,6 +39,7 @@ function atualizar(texto, prioridade, id) {
 
 export default function Lista() {
     const [texto, setTexto] = useState("");
+    const [segmento, setSegmento] = useState("");
     const [lista, setLista] = useState([]);
     const [prioridade, setPrioridade] = useState("");
     const [idEditar, setIdEditar] = useState(0);
@@ -50,20 +53,22 @@ export default function Lista() {
     }, []);
 
     function salvar() {
-        adicionar(texto, prioridade);
+        adicionar(texto, segmento, prioridade);
         setPrioridade("");
+        setSegmento("");
         setTexto("");
         carregar();
     }
 
     function guardarOuEditar() {
         if (idEditar == 0) {
-            salvar(texto, prioridade);
+            salvar(texto, segmento, prioridade);
         } else {
-            atualizar(texto, prioridade, idEditar);
+            atualizar(texto, segmento, prioridade, idEditar);
         }
         setIdEditar(0);
         setPrioridade("");
+        setSegmento("");
         setTexto("");
         carregar();
     }
@@ -77,21 +82,23 @@ export default function Lista() {
         setIdEditar(lista.id);
         setTexto(lista.texto);
         setPrioridade(lista.prioridade);
+        setSegmento(lista.segmento);
     }
 
     return (
         <SafeAreaView style={styles.tela}>
-            <Stack.Screen options={{ title: "Agenda de Contatos" }} />
-            <TextInput style={styles.lugarzinho} value={texto} onChangeText={setTexto} placeholder="Nome do Meliante"/>
-            <TextInput style={styles.lugarzinho} value={prioridade} onChangeText={setPrioridade} placeholder="Número do Meliante" keyboardType="numeric"/>
+            <Stack.Screen options={{ title: "Meus Jogos" }} />
+            <TextInput style={styles.lugarzinho} value={texto} onChangeText={setTexto} placeholder="Nome..."/>
+            <TextInput style={styles.lugarzinho} value={segmento} onChangeText={setSegmento} placeholder="Plataforma..."/>
+            <TextInput style={styles.lugarzinho} value={prioridade} onChangeText={setPrioridade} placeholder="Horas Playadas..." keyboardType="numeric"/>
             {idEditar !== 0 ? (
-            <Button title="METER" onPress={guardarOuEditar} />
+            <Button title="Atualizar" onPress={guardarOuEditar} />
             ) : (
-            <Button title="SOCAR" onPress={salvar} />
+            <Button title="Adicionar" onPress={salvar} />
             )}
             <FlatList data={lista} renderItem={({ item }) => (
                 <View style={styles.itemApagar}>
-                    <Text style={styles.item}>{item.texto} - {item.prioridade}</Text>
+                    <Text style={styles.item}>{item.texto} - {item.segmento} - {item.prioridade}</Text>
                     <Button title="EXC" onPress={() => apagar(item.id)} />
                     <Button title="EDT" onPress={() => editar(item)} />
                 </View>)} />
